@@ -10,6 +10,7 @@ function getOsdElement() {
   if (osdEl == null) {
     osdEl = document.createElement("div");
     osdEl.id = osdElId;
+    osdEl.style.display = "none";
     document.getElementById("player-container-id").appendChild(osdEl);
   }
   return osdEl;
@@ -24,11 +25,12 @@ function updateOsd(text) {
     document.saylor.osdTimeout = null;
   }
   osdEl.innerText = text;
+  osdEl.style.display = "";
   if (document.saylor.osdTimeout != null)
     clearTimeout(document.saylor.osdTimeout);
   document.saylor.osdTimeout = setTimeout(function(){
     document.saylor.osdTimeout = null;
-    osdEl.innerText = "";
+    osdEl.style.display = "none";
   }, 1500);
 }
 
