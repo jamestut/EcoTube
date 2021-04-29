@@ -1,0 +1,10 @@
+#ecotube-info-osd {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  display: block;
+  position: absolute;
+  padding: 2mm;
+  font-size: 20pt;
+  top: 2mm;
+  left: 2mm;
+}
