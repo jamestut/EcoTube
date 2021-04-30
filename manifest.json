@@ -12,6 +12,11 @@
       "run_at": "document_idle",
       "js": ["contentScript.js"],
       "css": ["contentStyle.css"]
+    },
+    {
+      "matches": ["https://m.youtube.com/*"],
+      "run_at": "document_start",
+      "js": ["eventIntercept.js"]
     }
   ],
   "permissions": [
