@@ -8,3 +8,27 @@
   top: 2mm;
   left: 2mm;
 }
+
+#player-control-overlay.fadein {
+  background-color: initial !important;
+}
+
+ytm-custom-control .player-controls-middle {
+  display: none !important;
+}
+
+ytm-custom-control .player-controls-bottom {
+  display: none !important;
+}
+
+#player-control-overlay {
+  bottom: initial !important;
+}
+
+#player-control-container {
+  bottom: initial !important;
+}
+
+video {
+  cursor: initial;
+}

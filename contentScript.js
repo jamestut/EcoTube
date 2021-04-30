@@ -3,7 +3,7 @@ const skipDurationSec = 5;
 const speedStep = 0.25;
 const speedMax = 4;
 
-console.log("hello!");
+document.saylor = {};
 
 function getOsdElement() {
   let osdEl = document.getElementById(osdElId);
@@ -18,9 +18,6 @@ function getOsdElement() {
 
 function updateOsd(text) {
   var osdEl = getOsdElement();
-  if (document.saylor === undefined) {
-    document.saylor = {};
-  }
   if (document.saylor.osdTimeout === undefined) {
     document.saylor.osdTimeout = null;
   }
@@ -69,11 +66,13 @@ document.addEventListener('keydown', function(keyData) {
       keyData.preventDefault();
       break;
     case "Space":
-      if (videoEl.paused)
-        videoEl.play();
-      else
-        videoEl.pause();
-      keyData.preventDefault();
+      if (keyData.path[0].tagName != "VIDEO") {
+        if (videoEl.paused)
+          videoEl.play();
+        else
+          videoEl.pause();
+        keyData.preventDefault();
+      }
       break;
     case "ArrowRight":
       if (isNaN(videoEl.duration) || ((videoEl.currentTime + skipDurationSec) < videoEl.duration))
@@ -94,37 +93,54 @@ document.addEventListener('keydown', function(keyData) {
   return false;
 });
 
-function pimpPlayerControl(node) {
-  // variables for closures
-  var fadeOutTimeout = null;
-
-  // add mouseover listener to display OSD
-  node.addEventListener('mousemove', function() {
-    node.classList.add("fadein");
-    if (fadeOutTimeout != null) 
-      clearTimeout(fadeOutTimeout);
-    fadeOutTimeout = setTimeout(function() {
-      node.classList.remove("fadein");
-      fadeOutTimeout = null;
-    }, 1500);
+function setVideoObserver(videoEl) {
+  document.saylor.videoParentObserver = new MutationObserver(function(mutations) {
+    if (videoEl.getAttribute("controls") == null) {
+      videoEl.setAttribute("controls", "");
+      videoEl.setAttribute("controlslist", "nofullscreen");
+    }
   });
+  document.saylor.videoParentObserver.observe(videoEl, {attributes: true});
 }
 
-// observe on when to attach mouseover event listeners
-var observer = new MutationObserver(function(mutations) {
+function installVideoEventListener() {
+  var fadeOutTimeout = null;
+  let targetEls = [document.querySelector("#player"), document.querySelector("#player-control-container")];
+  for(let el of targetEls) {
+    el.addEventListener("mousemove", function() {
+      var ctrlOverlayEl = document.getElementById("player-control-overlay");
+      if (ctrlOverlayEl == null)
+        return;
+      ctrlOverlayEl.classList.add("fadein");
+      if (fadeOutTimeout != null)
+        clearTimeout(fadeOutTimeout);
+      fadeOutTimeout = setTimeout(function() {
+        ctrlOverlayEl.classList.remove("fadein");
+        fadeOutTimeout = null;
+      }, 1500);
+    });
+  }
+}
+
+installVideoEventListener();
+
+(new MutationObserver(function(mutations) {
   let stop = false;
-  for (const mutation of mutations) {
-    for (const addedNode of mutation.addedNodes) {
-      if (addedNode.id == "player-control-overlay") {
-        pimpPlayerControl(addedNode);
+  for (let mutation of mutations) {
+    for (let newNode of mutation.addedNodes) {
+      if (newNode.tagName == "VIDEO") {
+        setVideoObserver(newNode);
         stop = true;
         break;
       }
+      if (stop)
+        break;
     }
-    if (stop)
-      break;
   }
-});
-observer.observe(document.querySelector("#player-control-container ytm-custom-control"), {
-  childList: true
-});
+})).observe(document.querySelector("#player"), {subtree: true, childList: true});
+
+(function(){
+  let videoEl = document.querySelector("video");
+  if (videoEl != null)
+    setVideoObserver(videoEl);
+})();

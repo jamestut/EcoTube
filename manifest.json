@@ -1,7 +1,7 @@
 {
   "name": "EcoTube",
   "description": "Make YouTube desktop fast!",
-  "version": "0.1",
+  "version": "0.2",
   "manifest_version": 2,
   "background": {
     "scripts": ["background.js"]
