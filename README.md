@@ -16,6 +16,8 @@ This extension provides the following keyboard shortcuts:
   Toggle play or pause the video.
 - <kbd>F</kbd>  
   Toggle full screen mode.
+- <kbd>T</kbd>  
+  Toggle theatre mode (video occupies whole window width).
 - <kbd>[</kbd>  
   Slow down video by a factor of 0.25x.
 - <kbd>]</kbd>  

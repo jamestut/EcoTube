@@ -47,6 +47,22 @@ function changeVideoSpeed(videoEl, up) {
   }
 }
 
+function toggleTheatreMode() {
+  const className = "theatre";
+  let playerEl = document.getElementById("player-container-id");
+  let ytmNextEl = document.querySelector('ytm-single-column-watch-next-results-renderer [section-identifier="related-items"]');
+  let teathreOn = playerEl.classList.contains(className);
+  if (teathreOn) {
+    // turn off
+    playerEl.classList.remove(className);
+    ytmNextEl.classList.remove(className);
+  } else {
+    // turn on
+    playerEl.classList.add(className);
+    ytmNextEl.classList.add(className);
+  }
+}
+
 // keyboard shortcut
 document.addEventListener('keydown', function(keyData) {
   // ignore if path is textarea or input
@@ -64,6 +80,9 @@ document.addEventListener('keydown', function(keyData) {
     case "KeyF":
       document.querySelector("#player-control-container button.fullscreen-icon").click();
       keyData.preventDefault();
+      break;
+    case "KeyT":
+      toggleTheatreMode();
       break;
     case "Space":
       if (keyData.path[0].tagName != "VIDEO") {

@@ -29,10 +29,29 @@ ytm-custom-control .player-controls-bottom {
   bottom: initial !important;
 }
 
+div.html5-video-container {
+  height: 100% !important;
+}
+
 video {
   cursor: initial;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 video.hide-video-controls::-webkit-media-controls-panel {
   display: none;
+}
+
+#player-container-id.theatre {
+  right: 0 !important;
+}
+
+ytm-single-column-watch-next-results-renderer.theatre {
+  width: 100% !important;
+  position: initial !important;
 }
