@@ -33,6 +33,10 @@ div.html5-video-container {
   height: 100% !important;
 }
 
+div.player-controls-background {
+  display: none;
+}
+
 video {
   cursor: initial;
   top: 0 !important;
