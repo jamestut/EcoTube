@@ -16,6 +16,7 @@ function installEventMediator() {
         case "pause":
         case "keyup":
         case "keydown":
+        case "keypress":
           return;
       }
     }

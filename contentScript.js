@@ -122,47 +122,51 @@ function setVideoObserver(videoEl) {
   document.saylor.videoParentObserver.observe(videoEl, {attributes: true});
 }
 
-function installVideoEventListener() {
+function installVideoEventListeners(videoEl) {
+  videoEl.addEventListener("focus", function() {
+    this.blur();
+  }, false);
   var fadeOutTimeout = null;
-  let targetEls = [document.querySelector("#player"), document.querySelector("#player-control-container")];
-  for(let el of targetEls) {
-    el.addEventListener("mousemove", function() {
-      var videoEl = document.querySelector("video");
-      var ctrlOverlayEl = document.getElementById("player-control-overlay");
-      if (ctrlOverlayEl == null)
-        return;
-      ctrlOverlayEl.classList.add("fadein");
-      videoEl.classList.remove("hide-video-controls");
-      if (fadeOutTimeout != null)
-        clearTimeout(fadeOutTimeout);
-      fadeOutTimeout = setTimeout(function() {
-        ctrlOverlayEl.classList.remove("fadein");
-        videoEl.classList.add("hide-video-controls");
-        fadeOutTimeout = null;
-      }, 2000);
-    });
-  }
+  videoEl.addEventListener("mousemove", function() {
+    var ctrlOverlayEl = document.getElementById("player-control-overlay");
+    if (ctrlOverlayEl == null)
+      return;
+    ctrlOverlayEl.classList.add("fadein");
+    videoEl.classList.remove("hide-video-controls");
+    if (fadeOutTimeout != null)
+      clearTimeout(fadeOutTimeout);
+    fadeOutTimeout = setTimeout(function() {
+     ctrlOverlayEl.classList.remove("fadein");
+     videoEl.classList.add("hide-video-controls");
+     fadeOutTimeout = null;
+    }, 2000);
+  });
 }
 
-installVideoEventListener();
+function setupVideoElement(videoEl) {
+  setVideoObserver(videoEl);
+  installVideoEventListeners(videoEl);
+}
+
+function setupPlayerControlOverlayEvents(el) {
+  debugger;
+}
 
 (new MutationObserver(function(mutations) {
-  let stop = false;
   for (let mutation of mutations) {
     for (let newNode of mutation.addedNodes) {
       if (newNode.tagName == "VIDEO") {
-        setVideoObserver(newNode);
-        stop = true;
-        break;
+        setupVideoElement(newNode);
+      } else if (newNode.id == "player-control-overlay") {
+        setupPlayerControlOverlayEvents(newNode);
       }
-      if (stop)
-        break;
     }
   }
 })).observe(document.querySelector("#player"), {subtree: true, childList: true});
 
 (function(){
   let videoEl = document.querySelector("video");
-  if (videoEl != null)
-    setVideoObserver(videoEl);
+  if (videoEl != null) {
+    setupVideoElement(videoEl);
+  }
 })();
