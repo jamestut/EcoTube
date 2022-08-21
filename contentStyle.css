@@ -45,6 +45,7 @@ video {
   bottom: 0 !important;
   width: 100% !important;
   height: 100% !important;
+  object-fit: contain !important;
 }
 
 video.hide-video-controls::-webkit-media-controls-panel {
