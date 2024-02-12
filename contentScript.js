@@ -66,7 +66,7 @@ function toggleTheatreMode() {
 // keyboard shortcut
 document.addEventListener('keydown', function(keyData) {
   // ignore if path is textarea or input
-  if (["INPUT", "TEXTAREA"].indexOf(keyData.path[0].tagName) >= 0)
+  if (["INPUT", "TEXTAREA"].indexOf(keyData.target?.tagName) >= 0)
     return true;
   let videoEl = document.querySelector("video");
   if (videoEl == null)
@@ -85,7 +85,7 @@ document.addEventListener('keydown', function(keyData) {
       toggleTheatreMode();
       break;
     case "Space":
-      if (keyData.path[0].tagName != "VIDEO") {
+      if (keyData.target?.tagName !== "VIDEO") {
         if (videoEl.paused)
           videoEl.play();
         else

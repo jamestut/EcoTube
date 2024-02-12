@@ -13,11 +13,7 @@
   background-color: initial !important;
 }
 
-ytm-custom-control .player-controls-middle {
-  display: none !important;
-}
-
-ytm-custom-control .player-controls-bottom {
+ytm-custom-control .player-controls-middle, ytm-custom-control .player-controls-bottom, ytm-custom-control .watch-page-progress-bar {
   display: none !important;
 }
 
